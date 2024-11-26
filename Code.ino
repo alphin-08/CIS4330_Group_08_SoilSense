@@ -36,6 +36,15 @@ void loop() {
   int soilValue = analogRead(soilMoisturePin); // Get raw analog value (0-1023)
   int soilPercent = map(soilValue, 1023, 0, 0, 100); // Map to percentage (dry to wet)
 
+  String soilLevel;
+  if(soilPercent <= 50){
+    soilLevel = "LOW";
+  }else if(soilPercent <= 75){
+    soilLevel = "MED";
+  }else{
+    soilLevel = "HIGH";
+  }
+  
   // Display humidity and soil moisture on the LCD
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -46,15 +55,8 @@ void loop() {
   lcd.setCursor(0, 1);
   lcd.print("Soil: ");
   lcd.print(soilPercent);
-  lcd.print("%");
+  lcd.print("% ");
+  lcd.print(soilLevel);
 
   delay(2000); // Update every 2 seconds
-}void setup() {
-  // put your setup code here, to run once:
-
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
 }
