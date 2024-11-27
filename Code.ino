@@ -9,7 +9,11 @@ int pinDHT11 = 2;               // DHT11 data pin connected to Arduino Pin 2
 SimpleDHT11 dht11(pinDHT11);    // Create a SimpleDHT11 object
 
 // Soil moisture sensor pin
-const int soilMoisturePin = A0; // Connect AOUT pin of soil sensor to A0
+const int soilMoisturePin = A0; // Connects AOUT pin of soil sensor to A0
+
+//Calibration values for soil moisture sensor
+int dryValue = 462; //Raw value for dry soil
+int wetValue = 200; //Raw value for wet soil
 
 void setup() {
   lcd.begin(16, 2); // Set up the LCD with 16 columns and 2 rows
@@ -32,14 +36,22 @@ void loop() {
     return;
   }
 
-  // Read soil moisture sensor value
-  int soilValue = analogRead(soilMoisturePin); // Get raw analog value (0-1023)
-  int soilPercent = map(soilValue, 1023, 0, 0, 100); // Map to percentage (dry to wet)
+  // Read raw soil moisture sensor value
+  int rawValue = analogRead(soilMoisturePin);
 
+  //Calibrates soil moisture value
+  int calibratedValue = rawValue - dryValue;
+  int soilPercent = (calibratedValue * 100) / (wetValue - dryValue);
+
+  //Forces percentage to be between 0 - 100%
+  if(soilPercent < 0)soilPercent = 0;
+  if(soilPercent > 100)soilPercent = 100; 
+
+  //Determines Low, Med, or High
   String soilLevel;
   if(soilPercent <= 50){
     soilLevel = "LOW";
-  }else if(soilPercent <= 75){
+  }else if(soilPercent > 50 && soilPercent <= 75){
     soilLevel = "MED";
   }else{
     soilLevel = "HIGH";
