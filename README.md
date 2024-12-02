@@ -16,15 +16,40 @@ Link To Live Demo After Professor's Feedback: https://drive.google.com/file/d/1a
 
 
 All the Action Messages:
+
+
  soilLevel == "LOW" && humidity >= 30 && humidity <= 60
+
+
+ 
  "Water Now"
+
+
+ 
  soilLevel == "MED" && humidity >= 30 && humidity <= 60
+
+
+ 
  "Water & Air OK"
+
+ 
  soilLevel == "HIGH" && humidity >= 30 && humidity <= 60
+
+ 
  "Don't Water";
+
+ 
  soilLevel == "LOW" && humidity < 30 || humidity > 60
+
+ 
  "Water & Move"
+
+ 
  soilLevel == "MED" && humidity < 30 || humidity > 60
+
+ 
  "Move Plant"
+
+ 
  soilLevel == "HIGH" && humidity < 30 || humidity > 60
  "Don't Water&Move"
